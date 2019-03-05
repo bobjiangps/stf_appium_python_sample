@@ -20,6 +20,11 @@ class StfDevices:
         result = requests.get(self.device_url, headers=headers)
         return result
 
+    def __get_user_device(self):
+        headers = {"Authorization": "Bearer " + self.token}
+        result = requests.get(self.user_device_url, headers=headers)
+        return result
+
     def count_all_devices(self):
         all_devices = self.__get_all_devices_info()
         if all_devices.status_code == 200:
@@ -70,13 +75,31 @@ class StfDevices:
         result = requests.delete(return_url, headers=headers)
         return result
 
+    def get_user_device_remote_connect_url(self, serial):
+        my_devices = self.__get_user_device()
+        if my_devices.status_code == 200:
+            devices_json = json.loads(my_devices.text)
+            if devices_json["success"]:
+                for d in devices_json["devices"]:
+                    if d["serial"] == serial:
+                        return d["remoteConnectUrl"]
+            else:
+                print("failed to get user devices info")
+        else:
+            print("wrong status: %d" % my_devices.status_code)
+
+
 
 remote_devices = StfDevices("10.109.1.65")
 remote_devices.count_all_devices()
 my_device = remote_devices.get_single_device()
 device_serial = my_device["serial"]
+print(device_serial)
 print(remote_devices.rent_single_device(device_serial).text)
+time.sleep(5)
+print(remote_devices.get_user_device_remote_connect_url(device_serial))
 time.sleep(10)
 print(remote_devices.return_rented_device(device_serial).text)
-time.sleep(10)
+time.sleep(5)
+print(remote_devices.get_user_device_remote_connect_url(device_serial))
 
