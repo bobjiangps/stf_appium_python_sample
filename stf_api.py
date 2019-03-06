@@ -1,7 +1,6 @@
 import requests
 import json
 import random
-import time
 
 
 class StfDevices:
@@ -63,6 +62,12 @@ class StfDevices:
             print("no device to use")
             return []
 
+    def get_single_device_info(self, serial):
+        single_device_url = "/".join([self.device_url, serial])
+        headers = {"Authorization": "Bearer " + self.token}
+        result = requests.get(single_device_url, headers=headers)
+        return result
+
     def rent_single_device(self, serial):
         headers = {"Authorization": "Bearer " + self.token, "Content-Type": "application/json"}
         data = {"serial": serial}
@@ -87,19 +92,4 @@ class StfDevices:
                 print("failed to get user devices info")
         else:
             print("wrong status: %d" % my_devices.status_code)
-
-
-
-remote_devices = StfDevices("10.109.1.65")
-remote_devices.count_all_devices()
-my_device = remote_devices.get_single_device()
-device_serial = my_device["serial"]
-print(device_serial)
-print(remote_devices.rent_single_device(device_serial).text)
-time.sleep(5)
-print(remote_devices.get_user_device_remote_connect_url(device_serial))
-time.sleep(10)
-print(remote_devices.return_rented_device(device_serial).text)
-time.sleep(5)
-print(remote_devices.get_user_device_remote_connect_url(device_serial))
 
