@@ -2,6 +2,7 @@ Appium-Python-Client==0.39
 certifi==2018.11.29
 chardet==3.0.4
 idna==2.8
+PyYAML==3.13
 requests==2.21.0
 selenium==3.141.0
 urllib3==1.24.1

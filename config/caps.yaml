@@ -1,0 +1,12 @@
+SM-N910V:
+    platformName: Android
+    platformVersion: 4.4.4
+    deviceName: 0bad655c
+    appPackage: com.sec.android.app.popupcalculator
+    appActivity: .Calculator
+SM-G920V:
+    platformName: Android
+    platformVersion: 5.0.2
+    deviceName: 03157df36144d40d
+    appPackage: com.sec.android.app.popupcalculator
+    appActivity: .Calculator
