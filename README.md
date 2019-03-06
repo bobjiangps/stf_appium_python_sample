@@ -8,4 +8,3 @@ Auto test on remote mobile devices with openstf and appium / 自动化操作远�
 require stf and adb environment.
 for stf environment, please refer to my blog post: https://www.byincd.com/bobjiang/article-0164/ .
 
-![Image text](https://www.byincd.com/media/upload/Bo/2019/03/06/stf_screenshot_20190306.png)
