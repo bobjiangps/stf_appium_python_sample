@@ -1,6 +1,7 @@
 import requests
 import json
 import random
+import time
 
 
 class StfDevices:
@@ -59,7 +60,16 @@ class StfDevices:
             random.shuffle(available_devices)
             return available_devices[0]
         else:
-            print("no device to use")
+            timeout = 600
+            print("no device to use, wait until %s min timeout" % str(round(timeout/60, 1)))
+            while timeout:
+                time.sleep(10)
+                timeout -= 10
+                count, available_devices = self.count_available_devices()
+                if count > 0:
+                    random.shuffle(available_devices)
+                    return available_devices[0]
+            print("no available device now, please check the stf device pool")
             return []
 
     def get_single_device_info(self, serial):
@@ -72,6 +82,10 @@ class StfDevices:
         headers = {"Authorization": "Bearer " + self.token, "Content-Type": "application/json"}
         data = {"serial": serial}
         result = requests.post(self.user_device_url, headers=headers, json=data)
+        if json.loads(result.text)["success"] != True:
+            print("rent device fail, rent again")
+            time.sleep(10)
+            result = requests.post(self.user_device_url, headers=headers, json=data)
         return result
 
     def return_rented_device(self, serial):
