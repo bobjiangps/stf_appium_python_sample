@@ -1,5 +1,5 @@
 Appium-Python-Client==0.39
-certifi==2018.11.29
+certifi==2022.12.7
 chardet==3.0.4
 idna==2.8
 PyYAML==3.13
